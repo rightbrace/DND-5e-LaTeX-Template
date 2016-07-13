@@ -26,6 +26,7 @@
 \usepackage{lib/dndmonster}
 \usepackage{lib/dndsections}
 \usepackage{lib/dndcomment}
+\usepackage{lib/dnditemtable}
 \usepackage{lib/dndtable}
 \usepackage{lib/dndquote}
 \usepackage{lib/dndpaperbox}
@@ -35,9 +36,11 @@
 % Options
 %
 
-% 'bg-letter-img' and 'bg-letter-print' option
+% 'bg-letter-img','bg-letter-print' and 'bg-none' options
 \newtoggle{bool-bg-a4}
 \newtoggle{bool-bg-print}
+\newtoggle{bool-bg-none}
+\DeclareOption{bg-none}{\toggletrue{bool-bg-none}}
 \DeclareOption{bg-a4}{\toggletrue{bool-bg-a4}}
 \DeclareOption{bg-letter}{\togglefalse{bool-bg-a4}}
 \DeclareOption{bg-print}{\toggletrue{bool-bg-print}}
@@ -47,20 +50,22 @@
 \ExecuteOptions{bg-letter, bg-full}
 \ProcessOptions\relax
 
-% Determine background image
-\iftoggle{bool-bg-a4}{%		% Check if A4 option is selected
-	\iftoggle{bool-bg-print}{%	% Check if print option is selected
-		\RequirePackage[a4,print]{lib/dndbackgroundimg}
+\nottoggle{bool-bg-none}{
+  % Determine background image
+  \iftoggle{bool-bg-a4}{%		% Check if A4 option is selected
+    \iftoggle{bool-bg-print}{%	% Check if print option is selected
+      \RequirePackage[a4,print]{lib/dndbackgroundimg}
 		}{%
-		\RequirePackage[a4,full]{lib/dndbackgroundimg}
+      \RequirePackage[a4,full]{lib/dndbackgroundimg}
 		}
 	}{%
-	\iftoggle{bool-bg-print}{%	% Check if print option is selected
-		\RequirePackage[letter,print]{lib/dndbackgroundimg}
+    \iftoggle{bool-bg-print}{%	% Check if print option is selected
+      \RequirePackage[letter,print]{lib/dndbackgroundimg}
 		}{%
-		\RequirePackage[letter,full]{lib/dndbackgroundimg}
+      \RequirePackage[letter,full]{lib/dndbackgroundimg}
 		}
 	}
+}
 
 %
 % Style Parameters
@@ -82,6 +87,7 @@
 \definecolor{monstertan}{HTML}{FDF1DC}	%e.g. used for newer monsterblock
 \definecolor{monstertandark}{HTML}{F0DBB5}	%e.g. used for older monsterbox
 \definecolor{commentgreen}{HTML}{E0E5C1} % e.g. used in table and green commentbox
+\definecolor{itemtablepink}{HTML}{E9CDC2} % e.g. used in item tables instead of the green
 \definecolor{rulered}{HTML}{9C2B1B}		%e.g. used for triangular rule in statsblock
 
 % Setup for custom footer
